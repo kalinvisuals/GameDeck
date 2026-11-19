@@ -1,0 +1,127 @@
+/*
+ * GameDeck Obsidian, 2026 — design tokens.
+ * Graphite layers, one ice-blue accent, cool white. Components read only these variables.
+ */
+:root {
+  /* surfaces, back to front */
+  --bg: #07080a;
+  --surface-0: #0c0d10;          /* sunken wells, inputs */
+  --surface: #121418;            /* cards */
+  --surface-raised: #181b20;     /* raised controls, active nav */
+  --surface-hover: #1f2329;
+  --surface-sunken: #0a0b0e;
+  --glass: rgba(18, 20, 24, 0.72);
+  --glass-strong: rgba(12, 13, 16, 0.86);
+
+  /* lines */
+  --line: rgba(255, 255, 255, 0.065);
+  --line-strong: rgba(255, 255, 255, 0.12);
+  --line-focus: rgba(169, 214, 255, 0.6);
+  /* top-lit hairline for premium edges */
+  --edge: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02) 40%, rgba(255, 255, 255, 0.04));
+
+  /* text — on --surface: primary 17:1, secondary 7.6:1, tertiary 4.7:1 */
+  --text: #f3f5f8;
+  --text-2: #a5abb6;
+  --text-3: #7c838f;
+
+  /* the one accent: ice blue, plus cool white */
+  --accent: #a9d6ff;
+  --accent-strong: #cfe8ff;
+  --accent-ink: #06111c;
+  --accent-soft: rgba(169, 214, 255, 0.1);
+  --accent-softer: rgba(169, 214, 255, 0.05);
+  --accent-line: rgba(169, 214, 255, 0.36);
+  --accent-glow: 0 0 0 1px rgba(169, 214, 255, 0.35), 0 8px 28px -10px rgba(169, 214, 255, 0.35);
+
+  /* semantic, desaturated */
+  --ok: #8fd4ad;
+  --warn: #e4c582;
+  --danger: #f08a8a;
+  --danger-soft: rgba(240, 138, 138, 0.1);
+  --danger-line: rgba(240, 138, 138, 0.32);
+
+  /* shape */
+  --r-xs: 6px;
+  --r-sm: 9px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-pill: 999px;
+
+  /* elevation */
+  --shadow-1: inset 0 1px 0 rgba(255, 255, 255, 0.035), 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-2: inset 0 1px 0 rgba(255, 255, 255, 0.045), 0 12px 32px -8px rgba(0, 0, 0, 0.6);
+  --shadow-3: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 64px -16px rgba(0, 0, 0, 0.75);
+
+  /* atmosphere: faint cold light from above, never decorative noise */
+  --atmosphere:
+    radial-gradient(1200px 520px at 50% -220px, rgba(169, 214, 255, 0.075), transparent 70%),
+    radial-gradient(900px 600px at 100% 0%, rgba(140, 160, 210, 0.035), transparent 70%);
+
+  /* spacing (4 px base) */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --gutter: 16px;
+
+  /* type */
+  --font: 'Inter var', 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Text', 'Segoe UI', Roboto, sans-serif;
+  --font-display: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+  --fs-2xs: 0.625rem;
+  --fs-xs: 0.6875rem;
+  --fs-sm: 0.8125rem;
+  --fs-md: 0.9375rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+
+  /* motion */
+  --t-fast: 140ms;
+  --t: 200ms;
+  --t-slow: 240ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* one height for compact controls (small buttons, icon buttons, small segmented) */
+  --control-h: 36px;
+
+  /* layout */
+  --sidebar-w: 248px;
+  --dock-h: 64px;
+  --tile-min: 136px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  color-scheme: dark;
+}
+
+/* touch: bigger targets */
+@media (max-width: 860px), (pointer: coarse) {
+  :root {
+    --control-h: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-fast: 0ms;
+    --t: 0ms;
+    --t-slow: 0ms;
+  }
+}
+
+/* In-app preference, mirrors the OS setting. */
+:root[data-motion='reduced'] {
+  --t-fast: 0ms;
+  --t: 0ms;
+  --t-slow: 0ms;
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <title>GameDeck YouTube</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="ambient" id="ambient"></div>
+  <main>
+    <header>
+      <img src="icons/logo.svg" alt="" width="30" height="30">
+      <div class="brand">Game<span>Deck</span></div>
+      <div class="pill" id="pill"><i></i><span id="pillText"></span></div>
+    </header>
+
+    <section class="links" aria-live="polite">
+      <div class="link" id="linkDeck"><i></i><div><strong>GameDeck</strong><span id="deckText"></span></div></div>
+      <div class="link" id="linkTab"><i></i><div><strong>YouTube</strong><span id="tabText"></span></div></div>
+    </section>
+
+    <button class="notice" id="notice" type="button" hidden></button>
+
+    <section class="player" id="player" hidden>
+      <button class="cover" id="cover" type="button"><img id="art" alt=""><span class="live" id="live"><b></b><b></b><b></b></span></button>
+      <div class="meta">
+        <span class="eyebrow" id="eyebrow"></span>
+        <strong id="title"></strong>
+        <span class="channel" id="channel"></span>
+      </div>
+      <input class="seek" id="seek" type="range" min="0" max="1" value="0">
+      <div class="times"><span id="elapsed">0:00</span><span id="total">0:00</span></div>
+      <div class="controls">
+        <button id="previous" class="round" type="button"><svg viewBox="0 0 24 24"><path d="M6 5h2.500v14H6zM20 5.500v13L9.500 12z"/></svg></button>
+        <button id="toggle" class="play" type="button"><svg viewBox="0 0 24 24"><path id="toggleIcon" d="M8 5v14l11-7z"/></svg></button>
+        <button id="next" class="round" type="button"><svg viewBox="0 0 24 24"><path d="M15.500 5H18v14h-2.500zM4 5.500v13L14.500 12z"/></svg></button>
+      </div>
+      <label class="volume"><svg viewBox="0 0 24 24"><path d="M4 9.500v5h3.500L13 19V5L7.500 9.500zM16 8.500a5 5 0 0 1 0 7v-2.300a2.500 2.500 0 0 0 0-2.400z"/></svg><input id="volume" type="range" min="0" max="100" value="50"></label>
+    </section>
+
+    <section class="empty" id="empty" hidden>
+      <strong id="emptyTitle"></strong>
+      <span id="emptyText"></span>
+    </section>
+
+    <form id="search">
+      <svg viewBox="0 0 24 24"><path d="M10.500 4a6.500 6.500 0 0 1 5.100 10.500l4.400 4.400-1.400 1.400-4.400-4.400A6.500 6.500 0 1 1 10.500 4zm0 2a4.500 4.500 0 1 0 0 9 4.500 4.500 0 0 0 0-9z"/></svg>
+      <input id="query" maxlength="200" autocomplete="off">
+      <button type="submit" id="go"></button>
+    </form>
+
+    <section class="lists" id="lists" hidden>
+      <div class="tabs">
+        <button id="tabNext" type="button"></button>
+        <button id="tabResults" type="button"></button>
+      </div>
+      <p class="list-note" id="listNote" role="status" hidden></p>
+      <ul id="list"></ul>
+    </section>
+
+    <footer>
+      <button id="openYouTube" type="button"></button>
+      <button id="openDeck" type="button"></button>
+    </footer>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

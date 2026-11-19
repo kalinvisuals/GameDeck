@@ -1,0 +1,175 @@
+/* ================================================================ Pads chooser (phones and tablets) */
+
+.pads-launcher {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding: calc(var(--safe-top) + var(--s-5)) calc(var(--gutter) + var(--safe-right)) calc(var(--safe-bottom) + var(--s-6)) calc(var(--gutter) + var(--safe-left));
+  overflow-y: auto;
+  background:
+    radial-gradient(120% 60% at 0% 0%, rgba(169, 214, 255, 0.12), transparent 60%),
+    radial-gradient(120% 60% at 100% 100%, rgba(179, 169, 214, 0.12), transparent 60%),
+    var(--bg);
+  animation: pads-in 220ms var(--ease) both;
+}
+@keyframes pads-in { from { opacity: 0; transform: scale(0.985); } }
+.pads-launcher:focus { outline: none; }
+
+.pads-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-3); }
+.pads-head h2 { font-size: var(--fs-2xl); font-weight: 680; letter-spacing: -0.03em; line-height: 1.1; margin-top: 4px; }
+.pads-close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text-2);
+}
+.pads-close:active { transform: scale(0.94); }
+
+.pads-choices { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); align-content: center; }
+
+.pads-choice {
+  --tint: 169, 214, 255;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-4);
+  min-height: 168px;
+  padding: var(--s-5);
+  border-radius: 24px;
+  border: 1px solid rgba(var(--tint), 0.22);
+  background:
+    linear-gradient(145deg, rgba(var(--tint), 0.16), rgba(var(--tint), 0.02) 55%, transparent),
+    var(--surface);
+  box-shadow: 0 20px 48px -28px rgba(var(--tint), 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  text-align: left;
+  color: var(--text);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 140ms var(--ease), border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
+  animation: pads-card-in 320ms var(--ease) both;
+}
+.pads-choice.is-deck { --tint: 201, 169, 255; animation-delay: 60ms; }
+.pads-choice.is-youtube { --tint: 255, 176, 150; animation-delay: 120ms; }
+@keyframes pads-card-in { from { opacity: 0; transform: translateY(12px); } }
+.pads-choice:active { transform: scale(0.98); }
+.pads-choice:focus-visible { outline: 2px solid rgb(var(--tint)); outline-offset: 3px; }
+.pads-choice.is-current { border-color: rgba(var(--tint), 0.55); box-shadow: 0 0 0 1px rgba(var(--tint), 0.35), 0 20px 48px -24px rgba(var(--tint), 0.7); }
+
+.pads-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  color: #0b0d10;
+  background: linear-gradient(145deg, rgb(var(--tint)), rgba(var(--tint), 0.62));
+  box-shadow: 0 10px 24px -10px rgba(var(--tint), 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+/* The top padding keeps every title clear of the "open now" badge, on all cards alike. */
+.pads-text { display: grid; gap: 6px; min-width: 0; padding-top: 20px; }
+.pads-title-row { display: flex; align-items: center; gap: var(--s-2); flex-wrap: wrap; }
+.pads-title-row strong { font-size: var(--fs-xl); font-weight: 680; letter-spacing: -0.02em; }
+/* Pinned to the card's corner, so it sits in the same place whatever the title's length. */
+.pads-choice.is-current .pads-art { display: none; }
+.pads-current {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: rgba(var(--tint), 0.16);
+  color: rgb(var(--tint));
+  font-size: var(--fs-2xs);
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.pads-desc { color: var(--text-2); font-size: var(--fs-sm); line-height: 1.45; }
+.pads-meta { color: var(--text-3); font-size: var(--fs-xs); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pads-chevron { position: relative; color: rgba(var(--tint), 0.8); }
+
+/* Decorative art in the card's corner: a sound wave or a key grid, behind the text. */
+.pads-art { position: absolute; right: -6px; top: 12px; z-index: -1; opacity: 0.55; pointer-events: none; }
+.pads-wave { display: flex; align-items: center; gap: 4px; height: 56px; }
+.pads-wave > span {
+  width: 5px;
+  height: calc(var(--h) * 100%);
+  border-radius: 3px;
+  background: linear-gradient(rgb(var(--tint)), rgba(var(--tint), 0.2));
+  animation: pads-wave 1.6s ease-in-out calc(var(--i) * -0.13s) infinite;
+  transform-origin: center;
+}
+@keyframes pads-wave { 50% { transform: scaleY(0.45); } }
+.pads-keys { display: grid; grid-template-columns: repeat(3, 18px); gap: 5px; }
+.pads-keys > span { width: 18px; height: 18px; border-radius: 6px; border: 1px solid rgba(var(--tint), 0.45); }
+.pads-keys > span.is-lit { background: rgb(var(--tint)); box-shadow: 0 0 14px rgba(var(--tint), 0.8); border-color: transparent; }
+
+/* ================================================================ "More" chooser: three cards and the live status */
+
+.pads-choice.is-guide { --tint: 150, 226, 190; animation-delay: 60ms; }
+.pads-choice.is-settings { --tint: 201, 169, 255; animation-delay: 120ms; }
+.pads-art-icon { display: block; width: 54px; height: 54px; color: rgba(var(--tint), 0.28); }
+.is-more .pads-art { display: none; }
+.is-more .pads-choice { min-height: 118px; }
+
+/* Two aligned columns on narrow screens, one row of four once the cards sit side by side. */
+.more-status .sys-status { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2) var(--s-5); }
+.more-status .sys-row { grid-template-columns: auto auto minmax(0, 1fr); gap: 6px; min-width: 0; }
+.more-status .sys-label { white-space: nowrap; }
+.more-status .sys-note { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+@media (max-width: 359px) { .more-status .sys-status { column-gap: var(--s-3); padding-inline: var(--s-2); } }
+.more-status .sys-version { display: none; }
+
+/* Short portrait phones: three stacked cards still fit without scrolling. */
+@media (max-width: 599px) and (max-height: 760px) {
+  .pads-launcher, .pads-launcher .pads-choices { gap: var(--s-3); }
+  .pads-launcher .pads-choice { min-height: 0; padding: var(--s-3) var(--s-4); }
+  .pads-launcher .pads-icon { width: 52px; height: 52px; border-radius: 16px; }
+}
+
+/* Three cards side by side once each has room for its icon and the badge. */
+@media (min-width: 720px), (min-width: 600px) and (orientation: landscape) {
+  .pads-launcher .pads-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .more-status .sys-status { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-2) var(--s-4); }
+  .pads-launcher .pads-choice { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr; align-self: stretch; }
+  .pads-launcher .pads-icon { grid-row: 1; grid-column: 1; }
+  .pads-launcher .pads-chevron { grid-row: 2; grid-column: 2; align-self: end; }
+  .pads-launcher .pads-text { grid-row: 2; grid-column: 1; padding-top: 0; align-self: start; }
+  /* Beside the icon, clear of the text and the arrow. */
+  .pads-launcher .pads-art { display: block; top: 12px; right: 12px; }
+  .pads-launcher .pads-art-icon { width: 60px; height: 60px; }
+  .pads-wave { gap: 3px; height: 44px; }
+  .pads-wave > span { width: 3px; }
+}
+
+/* Phones held sideways: everything fits on one screen without scrolling. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .pads-launcher { gap: var(--s-3); padding-top: calc(var(--safe-top) + var(--s-3)); padding-bottom: calc(var(--safe-bottom) + var(--s-3)); }
+  .pads-launcher .pads-head h2 { font-size: var(--fs-xl); margin-top: 0; }
+  .pads-launcher .pads-close { width: 40px; height: 40px; }
+  .pads-launcher .pads-choices { gap: var(--s-3); }
+  .pads-launcher .pads-choice { min-height: 0; gap: var(--s-2); padding: var(--s-3) var(--s-4); border-radius: 20px; }
+  .pads-launcher .pads-icon { width: 44px; height: 44px; border-radius: 14px; }
+  .pads-launcher .pads-icon svg { width: 22px; height: 22px; }
+  .pads-launcher .pads-text { gap: 3px; }
+  .pads-launcher .pads-title-row strong { font-size: var(--fs-lg); }
+  .pads-launcher .pads-art { display: none; }
+  .more-status .sys-status { padding: var(--s-2) var(--s-3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pads-launcher, .pads-choice, .pads-wave > span { animation: none; }
+}
+:root[data-motion='reduced'] .pads-launcher,
+:root[data-motion='reduced'] .pads-choice,
+:root[data-motion='reduced'] .pads-wave > span { animation: none; }

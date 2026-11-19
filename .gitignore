@@ -1,0 +1,14 @@
+bin/
+obj/
+publish/
+*.user
+.vs/
+node_modules/
+*.tsbuildinfo
+.audit/
+web/dist/
+# built from /web
+src/GameDeck.App/wwwroot/
+
+# installer output (build.ps1 -Installer)
+dist/
