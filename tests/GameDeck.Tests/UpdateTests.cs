@@ -102,8 +102,12 @@ public class UpdateTests
     }
 
     [Fact]
-    public async Task Only_https_donation_links_are_shown() =>
-        Assert.Null((await CheckAsync("0.1.0", null, """{ "donate": "http://revolut.me/example" }""")).DonateUrl);
+    public async Task Only_https_donation_links_replace_the_built_in_one()
+    {
+        Assert.Equal(UpdateService.DefaultDonateUrl, (await CheckAsync("0.1.0", null, """{ "donate": "http://revolut.me/example" }""")).DonateUrl);
+        Assert.Equal(UpdateService.DefaultDonateUrl, (await CheckAsync("0.1.0", null, null)).DonateUrl); // offline
+        Assert.Equal("https://www.gamedeck.ro", (await CheckAsync("0.1.0", null, null)).Website);
+    }
 
     [Theory]
     [InlineData("0.10.0", "0.9.0", true)]

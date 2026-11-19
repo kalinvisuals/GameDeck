@@ -161,6 +161,7 @@ export interface UpdatesState {
   news: NewsMessage[];
   donateUrl: string | null;
   source: string;
+  website: string;
   checkedAt: string | null;
 }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowUpCircle, ExternalLink, Github, Heart, Mail, Megaphone, RefreshCw, Scale, X } from 'lucide-react';
+import { ArrowUpCircle, ExternalLink, Github, Globe, Heart, Mail, Megaphone, RefreshCw, Scale, X } from 'lucide-react';
 import { api } from '../lib/api';
 import { locale } from '../i18n';
 import type { NewsMessage } from '../lib/types';
@@ -120,6 +120,7 @@ export function AboutSection() {
         <div className="btn-row">
           <a className="btn btn-secondary btn-md" href={updates.source} {...external}><Github size={16} /><span>{t('about.source')}</span></a>
           <a className="btn btn-ghost btn-md" href={`${updates.source}/blob/main/LICENSE`} {...external}><Scale size={16} /><span>{t('about.readLicense')}</span></a>
+          <a className="btn btn-ghost btn-md" href={updates.website} {...external}><Globe size={16} /><span>{t('about.website')}</span></a>
           <a className="btn btn-ghost btn-md" href={`mailto:${CONTACT}`} title={CONTACT}><Mail size={16} /><span>{t('about.contact')}</span></a>
         </div>
         {updates.donateUrl && (
@@ -128,6 +129,7 @@ export function AboutSection() {
             <div>
               <strong>{t('about.donate')}</strong>
               <p className="muted small">{t('about.donateBody')}</p>
+              <p className="faint small">{t('about.donateNote')}</p>
             </div>
             <a className="btn btn-primary btn-md" href={updates.donateUrl} {...external}><span>{t('about.donateButton')}</span></a>
           </div>
@@ -204,6 +206,16 @@ export function UpdatePrompt() {
             <span className="eyebrow">{t('about.whatsNew')}</span>
             <p className="update-notes">{available.notes}</p>
           </>
+        )}
+        {updates.donateUrl && (
+          <div className="update-support">
+            <Heart size={18} aria-hidden />
+            <div>
+              <p>{t('about.supportLine')}</p>
+              <p className="faint small">{t('about.donateNote')}</p>
+            </div>
+            <a className="btn btn-secondary btn-sm" href={updates.donateUrl} {...external}><span>{t('about.donateButton')}</span></a>
+          </div>
         )}
         {status && <p className="muted" role="status">{status}</p>}
         {updates.error && <p className="update-error" role="alert">{updates.error}</p>}

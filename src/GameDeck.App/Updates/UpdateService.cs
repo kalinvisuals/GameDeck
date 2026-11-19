@@ -14,7 +14,7 @@ public sealed record UpdateRelease(string Version, string Notes, string Page, Da
 public sealed record NewsMessage(string Id, string Title, string Body, string? Link, string? LinkText);
 public sealed record UpdatesDto(
     string Current, UpdateRelease? Available, bool CanInstall, string State, string? Error,
-    IReadOnlyList<NewsMessage> News, string? DonateUrl, string Source, DateTimeOffset? CheckedAt);
+    IReadOnlyList<NewsMessage> News, string? DonateUrl, string Source, string Website, DateTimeOffset? CheckedAt);
 
 /// <summary>
 /// Looks for a newer GameDeck on GitHub and reads the announcements file from the repository. It only
@@ -25,6 +25,9 @@ public sealed class UpdateService : IDisposable
 {
     public const string Repository = "kalinvisuals/GameDeck";
     public const string SourcePage = "https://github.com/" + Repository;
+    public const string Website = "https://www.gamedeck.ro";
+    /// <summary>Built in so the button works offline; news.json can point it elsewhere without a release.</summary>
+    public const string DefaultDonateUrl = "https://revolut.me/kalinvisuals";
     /// <summary>The installer's AppId, which is also its uninstall key name.</summary>
     private const string InstallKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{6E0B7C1A-3F55-4C1E-9B8D-2A7F4E9C5D31}_is1";
     private const long MaxInstallerBytes = 400L * 1024 * 1024;
@@ -85,7 +88,7 @@ public sealed class UpdateService : IDisposable
             var language = _language();
             var available = _release is { } r && IsNewer(r.Version, _current) ? new UpdateRelease(r.Version, r.Notes, r.Page, r.Published) : null;
             var news = _news?.Messages.Select(m => m.For(language)).OfType<NewsMessage>().ToList() ?? [];
-            return new(_current, available, available is not null && CanInstall(), _state, _error, news, _news?.DonateUrl, SourcePage, _checkedAt);
+            return new(_current, available, available is not null && CanInstall(), _state, _error, news, _news?.DonateUrl ?? DefaultDonateUrl, SourcePage, Website, _checkedAt);
         }
     }
 

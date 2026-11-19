@@ -815,8 +815,13 @@ a.btn { text-decoration: none; }
 .update-prompt-head div { display: grid; gap: 2px; }
 .update-prompt-head strong { color: var(--text); font-size: var(--fs-lg); }
 .update-prompt .update-notes { max-height: 260px; padding: var(--s-3); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-0); }
-.dialog:has(.update-prompt) .dialog-foot { flex-wrap: wrap; }
+.dialog:has(.update-prompt) .dialog-foot { flex-wrap: nowrap; }
 @media (max-width: 600px) {
+  .dialog:has(.update-prompt) .dialog-foot { flex-wrap: wrap; }
   .dialog:has(.update-prompt) .dialog-foot > * { flex: 1 1 auto; justify-content: center; }
   .dialog:has(.update-prompt) .dialog-foot > :last-child { order: -1; flex-basis: 100%; }
 }
+.update-support { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--s-3); padding: var(--s-3); border-radius: var(--r-md); background: linear-gradient(135deg, rgba(255, 120, 150, 0.1), transparent 70%), var(--surface-0); font-size: var(--fs-sm); }
+.update-support > svg { color: #ff8fa8; }
+.update-support p { margin: 0; }
+@media (max-width: 600px) { .update-support { grid-template-columns: auto minmax(0, 1fr); } .update-support .btn { grid-column: 1 / -1; justify-content: center; } }

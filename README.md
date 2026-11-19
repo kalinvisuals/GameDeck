@@ -115,7 +115,7 @@ The app only downloads these public files. It sends nothing about the user beyon
 
 ## Contact
 
-[contact@gamedeck.ro](mailto:contact@gamedeck.ro). Bugs and ideas are also welcome as [GitHub issues](https://github.com/kalinvisuals/GameDeck/issues).
+Website: [www.gamedeck.ro](https://www.gamedeck.ro) · Email: [contact@gamedeck.ro](mailto:contact@gamedeck.ro) · Support the project: [revolut.me/kalinvisuals](https://revolut.me/kalinvisuals). Bugs and ideas are also welcome as [GitHub issues](https://github.com/kalinvisuals/GameDeck/issues).
 
 ## License
 
