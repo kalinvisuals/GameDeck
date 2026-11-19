@@ -102,7 +102,7 @@ Announcements and the donation link come from [`news.json`](news.json) on the `m
 
 ```json
 {
-  "donate": "https://revolut.me/your-name",
+  "donate": "https://revolut.me/kalinvisuals",
   "messages": [
     { "id": "2026-12-welcome", "until": "2027-01-31", "link": "https://github.com/kalinvisuals/GameDeck",
       "ro": { "title": "Titlu", "body": "Text", "linkText": "Deschide" },
