@@ -1,6 +1,7 @@
 # Publishes a new GameDeck version on GitHub, which installed copies then offer in Settings → About.
 #   ./tools/release.ps1 -Version 0.2.0 -Notes release-notes.md
-# Steps: sets the version, builds and tests everything, builds the installer, writes its SHA-256 file,
+# Steps: sets the version, builds and tests everything, builds the installer, writes its SHA-256 file and a
+# copy named GameDeck-Setup.exe (the website's direct download link),
 # tags the commit and creates the GitHub release with both files (needs the GitHub CLI, `gh auth login`).
 # Commit your changes first: the release is made from the current commit.
 param(
@@ -23,9 +24,12 @@ Set-Content $project ($text -replace '<Version>[^<]+</Version>', "<Version>$Vers
 $installer = "$root/dist/GameDeck-Setup-$Version.exe"
 $hash = (Get-FileHash $installer -Algorithm SHA256).Hash.ToLowerInvariant()
 Set-Content "$installer.sha256" "$hash  GameDeck-Setup-$Version.exe" -Encoding ascii
+# The same installer under a fixed name, so the website can always link to releases/latest/download/GameDeck-Setup.exe.
+$latest = "$root/dist/GameDeck-Setup.exe"
+Copy-Item $installer $latest -Force
 
 git -C $root commit -am "GameDeck $Version"
 git -C $root tag "v$Version"
 git -C $root push origin HEAD "v$Version"
-gh release create "v$Version" $installer "$installer.sha256" --repo kalinvisuals/GameDeck --title "GameDeck $Version" --notes-file $Notes
+gh release create "v$Version" $installer "$installer.sha256" $latest --repo kalinvisuals/GameDeck --title "GameDeck $Version" --notes-file $Notes
 Write-Host "Released GameDeck $Version. Installed copies will offer it within a few hours, or at once with Settings → About → Check now."
