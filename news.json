@@ -1,4 +1,50 @@
 {
   "donate": "https://revolut.me/kalinvisuals",
-  "messages": []
+  "messages": [
+    {
+      "id": "2026-11-youtube-volume",
+      "until": "2026-11-30T23:59:59+02:00",
+      "link": "https://github.com/kalinvisuals/GameDeck/releases/tag/v0.1.1",
+      "ro": {
+        "title": "Actualizarea 0.1.1: volumul YouTube rămâne cum îl setezi",
+        "body": "Până acum, dacă dădeai volumul mai încet din GameDeck, YouTube îl readucea la nivelul vechi la fiecare melodie nouă. Versiunea 0.1.1 repară asta. Pași: 1) Setări → Despre → Instalează actualizarea. 2) După update, deschide chrome://extensions (sau edge://extensions) și apasă butonul de reîncărcare ⟳ la GameDeck YouTube. 3) Dă refresh (F5) la fila YouTube. Fără pasul 2, browserul folosește în continuare extensia veche și volumul tot revine la nivelul vechi.",
+        "linkText": "Vezi ce e nou"
+      },
+      "en": {
+        "title": "Update 0.1.1: YouTube keeps the volume you set",
+        "body": "Until now, if you turned the volume down from GameDeck, YouTube put it back to the old level with every new song. Version 0.1.1 fixes this. Steps: 1) Settings → About → Install the update. 2) After the update, open chrome://extensions (or edge://extensions) and press the reload button ⟳ on GameDeck YouTube. 3) Refresh (F5) the YouTube tab. Without step 2 the browser keeps using the old extension and the volume still jumps back.",
+        "linkText": "See what's new"
+      },
+      "es": {
+        "title": "Actualización 0.1.1: YouTube mantiene el volumen que eliges",
+        "body": "Hasta ahora, si bajabas el volumen desde GameDeck, YouTube lo volvía a subir al nivel anterior con cada canción nueva. La versión 0.1.1 lo corrige. Pasos: 1) Ajustes → Acerca de → Instalar la actualización. 2) Después de actualizar, abre chrome://extensions (o edge://extensions) y pulsa el botón de recargar ⟳ en GameDeck YouTube. 3) Actualiza (F5) la pestaña de YouTube. Sin el paso 2, el navegador sigue usando la extensión antigua y el volumen vuelve a cambiar.",
+        "linkText": "Ver novedades"
+      },
+      "pt": {
+        "title": "Atualização 0.1.1: o YouTube mantém o volume que você escolhe",
+        "body": "Até agora, se você abaixava o volume pelo GameDeck, o YouTube voltava ao nível anterior a cada nova música. A versão 0.1.1 corrige isso. Passos: 1) Configurações → Sobre → Instalar a atualização. 2) Depois da atualização, abra chrome://extensions (ou edge://extensions) e clique no botão de recarregar ⟳ no GameDeck YouTube. 3) Atualize (F5) a aba do YouTube. Sem o passo 2, o navegador continua usando a extensão antiga e o volume volta a mudar.",
+        "linkText": "Ver novidades"
+      },
+      "de": {
+        "title": "Update 0.1.1: YouTube behält die eingestellte Lautstärke",
+        "body": "Bisher hat YouTube die Lautstärke bei jedem neuen Song wieder auf den alten Wert gesetzt, wenn du sie in GameDeck leiser gestellt hast. Version 0.1.1 behebt das. Schritte: 1) Einstellungen → Info → Update installieren. 2) Öffne nach dem Update chrome://extensions (oder edge://extensions) und klicke bei GameDeck YouTube auf Neu laden ⟳. 3) Lade den YouTube-Tab neu (F5). Ohne Schritt 2 nutzt der Browser weiter die alte Erweiterung und die Lautstärke springt weiter zurück.",
+        "linkText": "Neuerungen ansehen"
+      },
+      "fr": {
+        "title": "Mise à jour 0.1.1 : YouTube garde le volume que tu règles",
+        "body": "Jusqu'ici, si tu baissais le volume depuis GameDeck, YouTube le remettait à l'ancien niveau à chaque nouvelle chanson. La version 0.1.1 corrige cela. Étapes : 1) Réglages → À propos → Installer la mise à jour. 2) Après la mise à jour, ouvre chrome://extensions (ou edge://extensions) et clique sur le bouton de rechargement ⟳ de GameDeck YouTube. 3) Actualise (F5) l'onglet YouTube. Sans l'étape 2, le navigateur garde l'ancienne extension et le volume revient encore à l'ancien niveau.",
+        "linkText": "Voir les nouveautés"
+      },
+      "pl": {
+        "title": "Aktualizacja 0.1.1: YouTube zachowuje ustawioną głośność",
+        "body": "Do tej pory, gdy ściszałeś dźwięk w GameDeck, YouTube przy każdej nowej piosence przywracał poprzedni poziom. Wersja 0.1.1 to naprawia. Kroki: 1) Ustawienia → Informacje → Zainstaluj aktualizację. 2) Po aktualizacji otwórz chrome://extensions (lub edge://extensions) i kliknij przycisk przeładowania ⟳ przy GameDeck YouTube. 3) Odśwież (F5) kartę YouTube. Bez kroku 2 przeglądarka dalej używa starego rozszerzenia i głośność nadal wraca.",
+        "linkText": "Zobacz nowości"
+      },
+      "ru": {
+        "title": "Обновление 0.1.1: YouTube сохраняет выбранную громкость",
+        "body": "Раньше, если ты убавлял громкость в GameDeck, YouTube возвращал прежний уровень с каждой новой песней. Версия 0.1.1 это исправляет. Шаги: 1) Настройки → О программе → Установить обновление. 2) После обновления открой chrome://extensions (или edge://extensions) и нажми кнопку перезагрузки ⟳ у GameDeck YouTube. 3) Обнови (F5) вкладку YouTube. Без шага 2 браузер продолжит использовать старое расширение, и громкость будет снова сбрасываться.",
+        "linkText": "Что нового"
+      }
+    }
+  ]
 }
