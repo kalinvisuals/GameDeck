@@ -815,7 +815,11 @@ a.btn { text-decoration: none; }
 .update-prompt-head div { display: grid; gap: 2px; }
 .update-prompt-head strong { color: var(--text); font-size: var(--fs-lg); }
 .update-prompt .update-notes { max-height: 260px; padding: var(--s-3); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface-0); }
-.dialog:has(.update-prompt) .dialog-foot { flex-wrap: nowrap; }
+/* Room for the three buttons in every language (Romanian and German are the longest); if they still
+   do not fit, they wrap instead of leaving the dialog. */
+.dialog:has(.update-prompt) { max-width: 600px; }
+.dialog:has(.update-prompt) .dialog-foot { flex-wrap: wrap; justify-content: flex-end; }
+.dialog:has(.update-prompt) .dialog-foot > :first-child { margin-right: auto; }
 @media (max-width: 600px) {
   .dialog:has(.update-prompt) .dialog-foot { flex-wrap: wrap; }
   .dialog:has(.update-prompt) .dialog-foot > * { flex: 1 1 auto; justify-content: center; }
