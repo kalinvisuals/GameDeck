@@ -188,7 +188,8 @@ public sealed class AudioSettings
 
     /// <summary>Physical microphone mixed into the virtual output. Null means off.</summary>
     public string? MicDeviceId { get; set; }
-    public bool MicEnabled { get; set; }
+    /// <summary>On from the first start: with the cable as Discord's input, the voice would otherwise be missing.</summary>
+    public bool MicEnabled { get; set; } = true;
     public float MicVolume { get; set; } = 1.0f;
 
     public int LatencyMs { get; set; } = 40;
