@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GameDeck YouTube",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Controls the YouTube tab open in this browser from GameDeck on this PC.",
   "minimum_chrome_version": "116",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0DeMD8pE5O21UhuI2y7ae1dLkYhqoaZMC99zDYYNxEkxReY1A27REg7OBkjnSfsBwybG/jFnDk9H0kMkZMNmzYM2hRKnoCrZJcjso+RlQgLoCpzDa5LhjdS+CNEzQqSGTVQDukbcM4BU1DI1cU74bn/uKKbycrmnho5dnRnVkiH/k7CkG2zUpRRwYKD6WmqDuQBzOBtORGlr2Ulu5V33Tisas8qElHGFdp0rSBg7m8WltBPvARPjbDIx2GlPzBAzGzZ+nkjiHyzxIEMeZlGVHFF4ivSBttH0IxzMyIEIITgeAGkKa5BeH9EF464kFpp0GoMacAFGx58Bt/sHdkPP0wIDAQAB",
@@ -14,6 +14,7 @@
   "host_permissions": ["http://localhost/*"],
   "background": { "service_worker": "background.js" },
   "content_scripts": [
+    { "matches": ["https://www.youtube.com/*"], "js": ["page-volume.js"], "run_at": "document_idle", "world": "MAIN" },
     { "matches": ["https://www.youtube.com/*"], "js": ["content.js"], "run_at": "document_idle" }
   ]
 }

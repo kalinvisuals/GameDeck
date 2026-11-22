@@ -73,11 +73,13 @@
     // YouTube can keep playing after leaving the video page, and the controls must stay available.
     const stillPlaying = !media.paused && !media.ended && !!media.currentSrc;
     if (!id && !(stillPlaying && lastWatched)) return null;
+    // YouTube's own level (page-volume.js); the element's volume also carries loudness normalisation.
+    const playerVolume = document.documentElement.dataset.gamedeckVolume;
     const live = {
       duration: Number.isFinite(media.duration) ? media.duration : 0,
       position: media.currentTime || 0,
       paused: media.paused,
-      volume: Math.round((media.muted ? 0 : media.volume) * 100),
+      volume: playerVolume !== undefined ? Number(playerVolume) : Math.round((media.muted ? 0 : media.volume) * 100),
       isAd: player()?.classList.contains('ad-showing') ?? false,
     };
     if (!id) return { ...lastWatched, ...live };
@@ -612,8 +614,14 @@
       if (media.paused) startPlayback();
       else media.pause();
     } else if (action === 'volume') {
-      media.muted = false;
-      media.volume = Math.min(1, Math.max(0, value / 100));
+      // Through YouTube's player (page-volume.js), so the level survives the next video.
+      const level = Math.min(100, Math.max(0, Math.round(value)));
+      document.dispatchEvent(new CustomEvent('gamedeck-set-volume', { detail: level }));
+      if (document.documentElement.dataset.gamedeckVolume !== String(level)) {
+        // the player's API is not ready yet: set the element directly as before
+        media.muted = false;
+        media.volume = level / 100;
+      }
     } else if (action === 'seek' && Number.isFinite(media.duration)) {
       media.currentTime = Math.min(media.duration, Math.max(0, value));
     }
