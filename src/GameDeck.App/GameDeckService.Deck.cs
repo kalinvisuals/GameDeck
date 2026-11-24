@@ -474,6 +474,18 @@ public sealed partial class GameDeckService
                 case "scene":
                     ApplyScene(a.Target ?? "", "deck");
                     break;
+                case "discord":
+                    switch (a.Mode)
+                    {
+                        case "show": Presence.Activate(a.Target ?? ""); break;
+                        case "hideActivity": Presence.Hide("activity"); break;
+                        case "hideSong": Presence.Hide("music"); break;
+                        case "toggle": Presence.Toggle(); break;
+                        case "activityMode": Presence.ToggleMode("activity"); break;
+                        case "musicMode": Presence.ToggleMode("music"); break;
+                        default: throw new DeckException(L.T("deck.actionInvalid"));
+                    }
+                    break;
                 case "appMute":
                     var app = RefreshApps().FirstOrDefault(x => x.Key == a.Target) ?? throw new DeckException(L.T("apps.notRunning"));
                     SetAppVolume(app.Key, new AppVolumePatch(null, a.Mode switch { "on" => true, "off" => false, _ => !app.Muted }));

@@ -51,10 +51,14 @@ public sealed partial class GameDeckService
         Macros = new Core.Deck.MacroRunner(ExecuteAsync);
         Macros.Changed += () => StateChanged?.Invoke();
         Updates = new Updates.UpdateService(() => Language, Version);
+        Presence = new Presence.PresenceService(store);
     }
 
     /// <summary>New versions and announcements from GitHub. Started by the app only, never by tests.</summary>
     public Updates.UpdateService Updates { get; }
+
+    /// <summary>Discord Rich Presence. Started by the app only, never by tests.</summary>
+    public Presence.PresenceService Presence { get; }
 
     public void Start()
     {

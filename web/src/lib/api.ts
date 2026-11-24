@@ -1,6 +1,6 @@
 import type { Language } from '../i18n';
 import i18n from 'i18next';
-import type { AppAudio, AudioPatch, DeckExport, DeckImageUpload, DeckMacro, DeckProfile, DeckState, HardwareSnapshot, OpenWindow, PlayMode, Profile, RouteTestResult, Scene, SceneApplyResult, ScenePatch, Session, Sound, UpdatesState, YouTubeAction } from './types';
+import type { AppAudio, AudioPatch, DeckExport, DeckImageUpload, DeckMacro, DeckProfile, DeckState, HardwareSnapshot, OpenWindow, PlayMode, PresenceOptions, PresencePreset, PresenceState, SongInfo, Profile, RouteTestResult, Scene, SceneApplyResult, ScenePatch, Session, Sound, UpdatesState, YouTubeAction } from './types';
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -117,6 +117,18 @@ export const api = {
   addToProfile: (id: string, soundId: string) => request<void>('POST', `/api/profiles/${id}/sounds`, { soundId }),
   deleteProfile: (id: string) => request<void>('DELETE', `/api/profiles/${id}`),
   activateProfile: (id: string) => request<void>('POST', `/api/profiles/${id}/activate`),
+
+  /** Song details from a YouTube, Spotify, SoundCloud, Apple Music or Deezer link (read by the PC). */
+  lookupSong: (url: string) => request<SongInfo>('POST', '/api/presence/lookup', { url }),
+  setPresenceOptions: (o: PresenceOptions) => request<PresenceState>('PUT', '/api/presence/options', o),
+  presence: () => request<PresenceState>('GET', '/api/presence'),
+  setPresenceEnabled: (enabled: boolean) => request<PresenceState>('PUT', '/api/presence/enabled', { enabled }),
+  createPresencePreset: (p: Omit<PresencePreset, 'id'>) => request<PresencePreset>('POST', '/api/presence/presets', p),
+  savePresencePreset: (p: PresencePreset) => request<PresencePreset>('PUT', `/api/presence/presets/${p.id}`, p),
+  deletePresencePreset: (id: string) => request<void>('DELETE', `/api/presence/presets/${id}`),
+  activatePresencePreset: (id: string) => request<PresenceState>('POST', `/api/presence/presets/${id}/activate`),
+  restartPresence: (slot: 'activity' | 'music') => request<PresenceState>('POST', `/api/presence/${slot}/restart`),
+  hidePresence: (slot: 'activity' | 'music') => request<PresenceState>('POST', `/api/presence/${slot}/hide`),
 
   revokeDevice: (id: string) => request<void>('DELETE', `/api/paired-devices/${id}`),
 };

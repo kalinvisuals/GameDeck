@@ -6,6 +6,7 @@ import { latestSender } from '../../lib/latest';
 import { SoundIcon } from '../../lib/icons';
 import type { DeckButton, DeckProfile, HardwareSnapshot } from '../../lib/types';
 import { useDeck } from '../../state/DeckContext';
+import { usePresence } from '../../state/presence';
 import { useHardware } from '../../state/hardware';
 import { Button, Field, IconButton, Select } from '../../ui/controls';
 import { EmptyState } from '../../ui/Card';
@@ -64,6 +65,7 @@ export function useProfileDraft(profile: DeckProfile) {
 export function DeckGrid({ profile: stored, onOpenMonitor }: { profile: DeckProfile; onOpenMonitor?(): void }) {
   const { t } = useTranslation();
   const { state, playing } = useDeck();
+  usePresence(); // Discord buttons show whether their activity is on the profile
   const { profile, save, saveNow } = useProfileDraft(stored);
   const [pageIndex, setPageIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);

@@ -72,7 +72,7 @@ public sealed class ConfigStore
     private AppConfig Load()
     {
         var config = new AppConfig();
-        bool hasDeck = false, hasScenes = false, hasLogo = false;
+        bool hasDeck = false, hasScenes = false, hasLogo = false, hasPresence = false;
         if (File.Exists(ConfigPath))
         {
             try
@@ -84,6 +84,7 @@ public sealed class ConfigStore
                 {
                     hasDeck = doc.RootElement.TryGetProperty("deck", out _);
                     hasScenes = doc.RootElement.TryGetProperty("scenes", out _);
+                    hasPresence = doc.RootElement.TryGetProperty("presence", out _);
                     hasLogo = doc.RootElement.TryGetProperty("ui", out var ui) && ui.ValueKind == JsonValueKind.Object
                         && ui.TryGetProperty("logoModel", out _);
                 }
@@ -97,7 +98,7 @@ public sealed class ConfigStore
                 config = new AppConfig();
             }
         }
-        RestoreFeatures(config, hasDeck, hasScenes, hasLogo);
+        RestoreFeatures(config, hasDeck, hasScenes, hasLogo, hasPresence);
         return config;
     }
 
@@ -105,9 +106,9 @@ public sealed class ConfigStore
     /// An older GameDeck rewrites config.json without the sections it does not know, so those sections
     /// are mirrored in features.json (which it never touches) and brought back from there.
     /// </summary>
-    private void RestoreFeatures(AppConfig config, bool hasDeck, bool hasScenes, bool hasLogo)
+    private void RestoreFeatures(AppConfig config, bool hasDeck, bool hasScenes, bool hasLogo, bool hasPresence)
     {
-        if ((hasDeck && hasScenes && hasLogo) || !File.Exists(FeaturesPath)) return;
+        if ((hasDeck && hasScenes && hasLogo && hasPresence) || !File.Exists(FeaturesPath)) return;
         try
         {
             var saved = JsonSerializer.Deserialize<FeatureData>(File.ReadAllText(FeaturesPath), JsonOptions);
@@ -119,6 +120,7 @@ public sealed class ConfigStore
                 config.ActiveSceneId = saved.ActiveSceneId;
                 config.AutoScenes = saved.AutoScenes;
             }
+            if (!hasPresence && saved.Presence is not null) config.Presence = saved.Presence;
             if (!hasLogo && saved.LogoModel is not null)
             {
                 config.Ui ??= new UiSettings();
@@ -144,6 +146,7 @@ public sealed class ConfigStore
             Deck = _config.Deck,
             LogoModel = _config.Ui.LogoModel,
             LogoFinish = _config.Ui.LogoFinish,
+            Presence = _config.Presence,
         }, JsonOptions);
         if (features != _savedFeatures)
         {
@@ -168,6 +171,7 @@ public sealed class ConfigStore
         public DeckConfig? Deck { get; set; }
         public string? LogoModel { get; set; }
         public string? LogoFinish { get; set; }
+        public Presence.PresenceConfig? Presence { get; set; }
     }
 
     internal static void Normalize(AppConfig c)
@@ -228,5 +232,8 @@ public sealed class ConfigStore
 
         c.Deck ??= new DeckConfig();
         Deck.DeckRules.Normalize(c.Deck);
+
+        c.Presence ??= new Presence.PresenceConfig();
+        Presence.PresenceRules.Normalize(c.Presence);
     }
 }

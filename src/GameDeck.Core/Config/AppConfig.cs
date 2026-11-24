@@ -25,6 +25,9 @@ public sealed class AppConfig
 
     /// <summary>Smart Deck: button layouts and macros. Separate from the soundboard profiles above.</summary>
     public DeckConfig Deck { get; set; } = new();
+
+    /// <summary>Discord Rich Presence presets; off by default.</summary>
+    public Presence.PresenceConfig Presence { get; set; } = new();
 }
 
 public sealed class DeckConfig

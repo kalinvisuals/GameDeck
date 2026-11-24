@@ -21,6 +21,7 @@ public sealed class WsHub
     private int _stateQueued;
     private int _youtubeQueued;
     private int _updatesQueued;
+    private int _presenceQueued;
 
     private readonly YouTubeBridge _youtube;
 
@@ -31,6 +32,7 @@ public sealed class WsHub
         _youtube = youtube;
         youtube.Changed += QueueYouTubeBroadcast;
         service.Updates.Changed += QueueUpdatesBroadcast;
+        service.Presence.Changed += QueuePresenceBroadcast;
         service.LanguageChanged += QueueUpdatesBroadcast; // announcements come in the chosen language
         service.StateChanged += QueueStateBroadcast;
         service.PlayingChanged += () => _ = BroadcastAsync(new { type = "playing", data = _service.Engine.GetPlaying() });
@@ -129,6 +131,7 @@ public sealed class WsHub
             await client.SendAsync(Serialize(new { type = "state", data = _service.BuildState() }));
             await client.SendAsync(Serialize(new { type = "youtube", data = _youtube.Snapshot() }));
             await client.SendAsync(Serialize(new { type = "updates", data = _service.Updates.Snapshot() }));
+            await client.SendAsync(Serialize(new { type = "presence", data = _service.Presence.Snapshot() }));
             await ReceiveLoopAsync(client, ct);
         }
         catch (Exception ex) when (ex is WebSocketException or OperationCanceledException)
@@ -267,6 +270,16 @@ public sealed class WsHub
         {
             Interlocked.Exchange(ref _updatesQueued, 0);
             await BroadcastAsync(new { type = "updates", data = _service.Updates.Snapshot() });
+        });
+    }
+
+    private void QueuePresenceBroadcast()
+    {
+        if (Interlocked.Exchange(ref _presenceQueued, 1) == 1) return;
+        _ = Task.Delay(50).ContinueWith(async _ =>
+        {
+            Interlocked.Exchange(ref _presenceQueued, 0);
+            await BroadcastAsync(new { type = "presence", data = _service.Presence.Snapshot() });
         });
     }
 

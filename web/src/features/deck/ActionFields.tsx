@@ -4,9 +4,10 @@ import { FileSearch, FolderOpen, Keyboard, RefreshCw, ShieldAlert } from 'lucide
 import { api } from '../../lib/api';
 import type { DeckAction, DeckActionType, DeckChannel, OpenWindow, SensorId } from '../../lib/types';
 import { useDeck } from '../../state/DeckContext';
+import { usePresence } from '../../state/presence';
 import { Button, Field, IconButton, Segmented, Select } from '../../ui/controls';
 import { Slider } from '../../ui/Slider';
-import { ACTION_GROUPS, CHANNELS, MEDIA_KEYS, SECONDARY_GROUPS, SENSITIVE, SENSORS, STEP_TYPES, WINDOW_MODES, channelMax, defaultAction, keysFromEvent } from './actions';
+import { ACTION_GROUPS, CHANNELS, DISCORD_MODES, MEDIA_KEYS, SECONDARY_GROUPS, SENSITIVE, SENSORS, STEP_TYPES, WINDOW_MODES, channelMax, defaultAction, keysFromEvent } from './actions';
 
 /** Key names are the same in every language, as Windows writes them. */
 const KEYS_EXAMPLE = 'Ctrl+Shift+S';
@@ -21,6 +22,7 @@ const KEYS_EXAMPLE = 'Ctrl+Shift+S';
 export function ActionFields({ action, onChange, inMacro = false, secondary = false, onPathPicked, suggestProgram }: { action: DeckAction; onChange(a: DeckAction): void; inMacro?: boolean; secondary?: boolean; onPathPicked?(path: string): void; suggestProgram?: string | null }) {
   const { t } = useTranslation();
   const { state, session, run } = useDeck();
+  const presence = usePresence();
   const local = !!session.local;
   const locked = SENSITIVE.has(action.type) && !local;
   const set = (patch: Partial<DeckAction>) => onChange({ ...action, ...patch });
@@ -95,6 +97,25 @@ export function ActionFields({ action, onChange, inMacro = false, secondary = fa
             {MEDIA_KEYS.map((m) => <option key={m} value={m}>{t(`deck.media.${m}`)}</option>)}
           </Select>
         </Field>
+      )}
+
+      {action.type === 'discord' && (
+        <>
+          <Field label={t('deck.discordMode')}>
+            <Select value={action.mode ?? 'toggle'} aria-label={t('deck.discordMode')}
+              onChange={(e) => set({ mode: e.target.value, target: e.target.value === 'show' ? action.target ?? presence?.presets[0]?.id ?? null : null })}>
+              {DISCORD_MODES.map((m) => <option key={m} value={m}>{t(`deck.discordModes.${m}`)}</option>)}
+            </Select>
+          </Field>
+          {action.mode === 'show' && (
+            <Field label={t('deck.discordPreset')} hint={!presence?.presets.length ? t('deck.noPresets') : undefined}>
+              <Select value={action.target ?? ''} aria-label={t('deck.discordPreset')} onChange={(e) => set({ target: e.target.value })}>
+                {!presence?.presets.some((p) => p.id === action.target) && <option value={action.target ?? ''}>{t('deck.choose')}</option>}
+                {presence?.presets.map((p) => <option key={p.id} value={p.id}>{p.label || p.details || p.name || p.id}</option>)}
+              </Select>
+            </Field>
+          )}
+        </>
       )}
 
       {action.type === 'sound' && (

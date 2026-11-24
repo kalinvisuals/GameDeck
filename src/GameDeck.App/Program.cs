@@ -59,6 +59,7 @@ internal static class Program
             web.StartAsync().GetAwaiter().GetResult();
             Log.Info($"Dashboard listening on port {service.Port}");
             service.Updates.Start();
+            service.Presence.Start();
         }
         catch (Exception ex)
         {
@@ -71,6 +72,7 @@ internal static class Program
 
         Log.Info("Shutting down");
         service.Updates.Dispose();
+        service.Presence.DisposeAsync().AsTask().Wait(TimeSpan.FromSeconds(3));
         try
         {
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));

@@ -9,6 +9,7 @@ import './styles/layout.css';
 import './styles/views.css';
 import './styles/deck.css';
 import './styles/pads.css';
+import './styles/discord.css';
 
 
 createRoot(document.getElementById('root')!).render(

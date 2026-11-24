@@ -1,0 +1,214 @@
+/*
+ * Discord screen. GameDeck's own look (graphite, ice-blue accent); Discord's colours appear only inside
+ * the profile preview, which shows what friends see. Animations move or fade only (cheap on phones).
+ */
+.discord { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
+.discord > * { min-width: 0; }
+
+/* ---------- header ---------- */
+.rp-head { display: flex; align-items: center; gap: var(--s-4); flex-wrap: wrap; }
+.rp-head-logo { width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center; flex: none;
+  background: linear-gradient(160deg, var(--surface-raised), var(--surface-0)); border: 1px solid var(--line-strong); box-shadow: var(--shadow-2); }
+.rp-head-text { flex: 1 1 200px; min-width: 0; }
+.rp-head-text h1 { margin: 0; font: 700 var(--fs-2xl)/1.1 var(--font-display); letter-spacing: -0.025em; }
+.rp-head-text p { margin: 4px 0 0; color: var(--text-3); font-size: var(--fs-sm); }
+.rp-status-pill { margin-left: auto; display: flex; align-items: center; gap: var(--s-3); padding: 6px 6px 6px var(--s-4); border-radius: var(--r-pill);
+  background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-1); min-width: 0; }
+.rp-status { display: inline-flex; align-items: center; gap: var(--s-2); font-size: var(--fs-sm); color: var(--text-2); min-width: 0; }
+.rp-error { margin: 0; padding: var(--s-2) var(--s-3); border: 1px solid var(--danger-line); background: var(--danger-soft); color: var(--danger); border-radius: var(--r-md); font-size: var(--fs-sm); }
+
+/* ---------- tiles ---------- */
+.rp-bento { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-4); align-items: start; }
+.rp-tile { position: relative; border-radius: var(--r-xl); padding: var(--s-5); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-1); }
+.rp-tile-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s-3); margin-bottom: var(--s-4); }
+.rp-tile h2, .rp-lib-bar h2 { margin: 4px 0 0; font: 650 var(--fs-lg)/1.2 var(--font-display); letter-spacing: -0.015em; }
+.rp-live-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--r-pill); font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.08em;
+  color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent-line); text-transform: uppercase; }
+.rp-live-badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: rp-blink 1.6s ease-in-out infinite; }
+@keyframes rp-blink { 50% { opacity: 0.3; } }
+.rp-foot { margin: var(--s-3) 0 0; color: var(--text-3); font-size: var(--fs-xs); }
+
+/* ---------- profile preview (Discord's colours live only in here) ---------- */
+.rp-dprofile { position: relative; border-radius: var(--r-lg); overflow: hidden; background: #1e1f22; border: 1px solid rgba(255, 255, 255, 0.06); }
+.rp-dbanner { height: 72px; background: linear-gradient(120deg, #1c2a3a, #2a3f5c 50%, #1d2633); }
+.rp-davatar { position: absolute; left: 16px; top: 34px; width: 72px; height: 72px; border-radius: 50%; border: 6px solid #1e1f22; display: grid; place-items: center;
+  font: 700 28px/1 var(--font-display); color: var(--accent-ink); background: linear-gradient(150deg, var(--accent-strong), var(--accent)); }
+.rp-davatar::after { content: ''; position: absolute; right: -2px; bottom: 2px; width: 18px; height: 18px; border-radius: 50%; background: #23a55a; border: 4px solid #1e1f22; }
+.rp-dwho { padding: 42px 16px 4px; }
+.rp-dwho b { font: 700 17px/1.2 var(--font-display); color: #f2f3f5; }
+.rp-dacts { padding: 10px 12px 14px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.rp-dnote { margin: 0; display: flex; align-items: center; gap: var(--s-2); padding: var(--s-3); border-radius: 12px; border: 1px dashed rgba(255, 255, 255, 0.14); color: #b5bac1; font-size: var(--fs-sm); }
+.rp-live { position: relative; animation: rp-rise 0.35s var(--ease-out) both; }
+@keyframes rp-rise { from { opacity: 0; transform: translateY(6px); } }
+.rp-card-tools { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; align-items: center; opacity: 0; transition: opacity var(--t-fast) var(--ease); }
+.rp-live:hover .rp-card-tools, .rp-live:focus-within .rp-card-tools { opacity: 1; }
+@media (hover: none) { .rp-card-tools { opacity: 1; } }
+.rp-card-tools button { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border: 0; border-radius: 8px; background: #3a3c42; color: #f2f3f5; font: 600 11.5px/1.2 var(--font); cursor: pointer; }
+.rp-card-tools button:hover { background: #4e5058; }
+.rp-auto-tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 8px; background: #3a3c42; color: var(--accent); font: 600 11.5px/1.2 var(--font); }
+
+.rp-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 12px; border-radius: 12px; background: #2b2d31; border: 1px solid rgba(255, 255, 255, 0.04); color: #b5bac1; }
+.rp-card-head { font-size: 12px; font-weight: 700; color: #dbdee1; padding-right: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-sheet-side .rp-card-head { padding-right: 0; }
+.rp-card-body { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 12px; align-items: center; }
+.rp-art { position: relative; width: 72px; height: 72px; }
+.rp-art > img:first-child, .rp-art-empty { width: 72px; height: 72px; border-radius: 10px; object-fit: cover; display: grid; place-items: center; background: linear-gradient(180deg, #26292f, #121418); position: relative; }
+.rp-art-note { position: absolute; left: 50%; top: 50%; transform: translate(-46%, -38%); color: #4fd39a; pointer-events: none; }
+.rp-art-small { position: absolute; right: -6px; bottom: -6px; width: 26px; height: 26px; border-radius: 50%; object-fit: cover; background: #111; border: 3px solid #2b2d31; }
+.rp-lines { display: grid; gap: 1px; min-width: 0; font-size: 13px; }
+.rp-lines > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-lines strong { color: #f2f3f5; font-size: 14.5px; font-weight: 650; }
+.rp-lines .is-link { text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.25); text-underline-offset: 3px; }
+.rp-time { color: #23a55a; font-size: 12.5px; font-weight: 600; }
+.rp-progress { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; font-size: 11.5px; }
+.rp-bar { height: 4px; border-radius: 4px; background: #4e5058; overflow: hidden; }
+.rp-bar > span { display: block; height: 100%; background: #f2f3f5; border-radius: inherit; transition: width 1s linear; }
+.rp-buttons { display: grid; gap: 6px; }
+.rp-btn { display: block; text-align: center; padding: 7px 12px; border-radius: 8px; background: #4e5058; color: #f2f3f5; font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-buttons .faint { color: #949ba4; }
+
+/* ---------- manual / automatic ---------- */
+.rp-mode-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-3); }
+.rp-mode { border-radius: var(--r-lg); padding: var(--s-4); background: var(--surface-0); border: 1px solid var(--line); transition: border-color var(--t) var(--ease), background-color var(--t) var(--ease); }
+.rp-mode.is-auto { border-color: var(--accent-line); background-color: #0b1016; }
+.rp-mode-row { display: flex; align-items: center; gap: var(--s-3); }
+.rp-mode-icon { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; flex: none; background: var(--surface-raised); color: var(--text-2); transition: color var(--t), background-color var(--t); }
+.rp-mode.is-auto .rp-mode-icon { color: var(--accent); background: var(--accent-soft); }
+.rp-mode-text { flex: 1; min-width: 0; }
+.rp-mode-text b { display: block; font: 650 var(--fs-md)/1.2 var(--font-display); }
+.rp-mode-text small { display: block; margin-top: 2px; color: var(--text-3); font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rp-mode-hint { margin: var(--s-3) 0 0; color: var(--text-3); font-size: var(--fs-xs); }
+.rp-mode-extra { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-3); margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px dashed var(--line-strong); }
+.rp-mode-extra .rp-mode-hint { margin: 0; }
+
+.rp-slide { position: relative; display: grid; grid-template-columns: 1fr 1fr; flex: none; width: 176px; padding: 3px; border-radius: var(--r-pill); background: var(--surface-raised); border: 1px solid var(--line); }
+.rp-slide::before { content: ''; position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: var(--r-pill); background: var(--text);
+  transition: transform var(--t-slow) var(--ease-out), background-color var(--t) var(--ease); }
+.rp-slide.is-auto::before { transform: translateX(100%); background: var(--accent); }
+.rp-slide button { position: relative; z-index: 1; border: 0; background: none; padding: 7px 0; font: 650 var(--fs-sm)/1 var(--font); color: var(--text-2); cursor: pointer; transition: color var(--t); }
+.rp-slide button[aria-checked='true'] { color: var(--accent-ink); }
+
+.rp-now { margin: 0; display: flex; align-items: center; gap: var(--s-2); padding: var(--s-2) var(--s-3); border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--line); color: var(--text-2); font-size: var(--fs-sm); min-width: 0; }
+.rp-now span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-now.is-playing { color: var(--text); border-color: var(--accent-line); }
+.rp-eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 14px; flex: none; }
+.rp-eq i { width: 3px; height: 14px; border-radius: 2px; background: var(--accent); transform-origin: bottom; animation: rp-eq 1s ease-in-out infinite; }
+.rp-eq i:nth-child(2) { animation-delay: -0.33s; } .rp-eq i:nth-child(3) { animation-delay: -0.66s; }
+@keyframes rp-eq { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+.rp-sources { display: flex; flex-wrap: wrap; gap: 6px; }
+.rp-source { border: 1px solid var(--line-strong); background: none; color: var(--text-2); padding: 6px 12px; border-radius: var(--r-pill); font: 600 var(--fs-sm)/1 var(--font); cursor: pointer; transition: all var(--t-fast) var(--ease); }
+.rp-source.is-on { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+.rp-inline { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
+.rp-inline b { display: block; font-size: var(--fs-sm); font-weight: 600; }
+.rp-inline small { display: block; color: var(--text-3); font-size: var(--fs-xs); }
+
+/* ---------- saved activities and songs ---------- */
+.rp-lib-bar { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; margin-bottom: var(--s-4); }
+.rp-lib-bar h2 { margin: 0 auto 0 0; }
+.rp-filters { display: inline-flex; padding: 3px; border-radius: var(--r-pill); background: var(--surface-0); border: 1px solid var(--line); }
+.rp-filters button { border: 0; background: none; color: var(--text-2); padding: 6px 12px; border-radius: var(--r-pill); font: 600 var(--fs-sm)/1 var(--font); cursor: pointer; transition: all var(--t-fast); }
+.rp-filters button.is-on { background: var(--surface-raised); color: var(--text); }
+.rp-new { position: relative; }
+.rp-new-btn { display: inline-flex; align-items: center; gap: 6px; border: 0; padding: 9px 16px; border-radius: var(--r-pill); background: var(--accent); color: var(--accent-ink); font: 700 var(--fs-sm)/1 var(--font); cursor: pointer; box-shadow: var(--accent-glow); }
+.rp-new-menu { position: absolute; right: 0; top: calc(100% + 6px); z-index: 10; display: grid; min-width: 220px; padding: 6px; border-radius: var(--r-md); background: var(--surface-raised); border: 1px solid var(--line-strong); box-shadow: var(--shadow-3); animation: rp-rise 0.18s var(--ease-out); }
+.rp-new-menu button { display: flex; align-items: center; gap: var(--s-2); border: 0; background: none; color: var(--text); padding: 10px; border-radius: var(--r-sm); font: 600 var(--fs-sm)/1.2 var(--font); text-align: left; cursor: pointer; }
+.rp-new-menu button:hover { background: var(--surface-hover); }
+
+.rp-rows { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2); }
+.rp-row { display: flex; align-items: center; gap: var(--s-1); padding-right: var(--s-1); border-radius: var(--r-lg); background: var(--surface-0); border: 1px solid var(--line); transition: border-color var(--t-fast), background-color var(--t-fast); }
+.rp-row:hover { border-color: var(--line-strong); }
+.rp-row.is-live { border-color: var(--accent-line); background-color: #0b1016; }
+.rp-row-main { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--s-3); padding: 8px; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; border-radius: var(--r-lg); }
+.rp-row-main:active { transform: scale(0.99); }
+.rp-thumb { width: 52px; height: 52px; border-radius: 12px; flex: none; display: grid; place-items: center; overflow: hidden; background: var(--surface-raised); color: var(--text-2); }
+.rp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.rp-row-text { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.rp-row-text b { font-size: var(--fs-md); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rp-row-text small { display: flex; align-items: center; gap: 6px; color: var(--text-3); font-size: var(--fs-xs); white-space: nowrap; overflow: hidden; }
+.rp-kind { flex: none; padding: 2px 6px; border-radius: 6px; background: var(--surface-raised); color: var(--text-2); font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.rp-kind.music { color: var(--accent); background: var(--accent-soft); }
+.rp-show { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--r-pill); background: var(--surface-raised); color: var(--text); font-size: var(--fs-sm); font-weight: 700; transition: background-color var(--t-fast), color var(--t-fast); }
+.rp-row-main:hover .rp-show { background: var(--text); color: var(--bg); }
+.rp-row.is-live .rp-show { background: var(--accent-soft); color: var(--accent); }
+.rp-show i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+.rp-templates { display: grid; gap: var(--s-3); }
+.rp-templates > p { margin: 0; }
+.rp-template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--s-2); }
+.rp-template { display: grid; gap: 4px; justify-items: start; text-align: left; padding: var(--s-4); border-radius: var(--r-lg); border: 1px dashed var(--line-strong); background: var(--surface-0); color: var(--text); cursor: pointer; transition: border-color var(--t-fast), background-color var(--t-fast); }
+.rp-template > span:first-child { color: var(--accent); margin-bottom: 4px; }
+.rp-template:hover { border-color: var(--accent-line); background: var(--accent-softer); }
+
+/* ---------- editor sheet ---------- */
+.rp-scrim { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; padding: var(--s-5); background: rgba(0, 0, 0, 0.62); animation: rp-fade 0.18s ease both; }
+@keyframes rp-fade { from { opacity: 0; } }
+.rp-sheet { width: min(980px, 100%); max-height: 92vh; overflow: auto; display: grid; grid-template-columns: minmax(0, 1fr) 330px; border-radius: 24px;
+  background: var(--surface); border: 1px solid var(--line-strong); box-shadow: var(--shadow-3); animation: rp-sheet 0.28s var(--ease-out) both; }
+@keyframes rp-sheet { from { opacity: 0; transform: translateY(14px) scale(0.985); } }
+/* Top bar of the editor: title and close, fixed while the content scrolls under it. */
+.rp-sheet-bar { position: sticky; top: 0; z-index: 5; grid-column: 1 / -1; order: -2; display: flex; align-items: center; gap: var(--s-3);
+  padding: var(--s-3) var(--s-3) var(--s-3) var(--s-5); background: var(--surface); border-bottom: 1px solid var(--line); }
+.rp-sheet-titles { flex: 1; min-width: 0; }
+.rp-sheet-titles h3 { margin: 2px 0 0; font: 650 var(--fs-md)/1.2 var(--font-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rp-sheet-close { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 12px;
+  background: var(--surface-raised); color: var(--text); cursor: pointer; }
+.rp-sheet-close:hover { background: var(--surface-hover); }
+/* The bar carries the title, so the form starts right with its fields. */
+.rp-sheet > .card > .card-head { display: none; }
+.rp-sheet-side { top: 65px !important; }
+.rp-sheet > .card { border: 0; box-shadow: none; background: none; border-radius: 0; margin: 0; }
+.rp-sheet-side { padding: var(--s-5); background: var(--surface-0); border-left: 1px solid var(--line); display: grid; gap: var(--s-3); align-content: start; position: sticky; top: 0; }
+
+.rp-form { display: grid; }
+.rp-form > .field, .rp-form > .field-pair, .rp-form > .rp-advanced { margin: 0 0 var(--s-5); }
+.rp-form .field-pair { margin-top: 0; }
+.rp-form .field + .field { margin-top: 0; }
+.rp-chips { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-2); }
+.rp-chip-icon { width: 14px; height: 14px; border-radius: 3px; object-fit: contain; }
+.rp-type { display: inline-flex; align-items: center; gap: 6px; }
+.rp-minutes { display: inline-flex; align-items: center; gap: var(--s-2); margin-top: var(--s-2); }
+.rp-minutes .input { width: 96px; }
+.rp-button-rows { display: grid; gap: var(--s-2); justify-items: start; }
+.rp-button-row { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--s-2); width: 100%; }
+.rp-advanced { border-top: 1px solid var(--line); padding-top: var(--s-4); }
+.rp-advanced > summary { cursor: pointer; font-weight: 550; font-size: var(--fs-sm); color: var(--text-2); margin-bottom: var(--s-4); }
+.rp-advanced[open] > summary { color: var(--text); }
+.rp-advanced > .field, .rp-advanced > .field-pair { margin: 0 0 var(--s-4); }
+.rp-invalid { color: var(--danger); }
+.rp-ok { color: var(--ok); }
+.rp-warn { color: var(--warn); }
+.input.is-invalid { border-color: var(--danger-line); }
+.rp-lookup { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); }
+.rp-spin { animation: rp-spin 0.9s linear infinite; }
+@keyframes rp-spin { to { transform: rotate(360deg); } }
+.rp-form > .rp-refill { margin: calc(-1 * var(--s-3)) 0 var(--s-5); }
+.rp-link-btn { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.rp-editor-foot { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; border-top: 1px solid var(--line); padding-top: var(--s-4); }
+.rp-spacer { flex: 1; }
+
+/* ---------- phones and tablets ---------- */
+@keyframes rp-sheet-up { from { transform: translateY(40px); opacity: 0; } }
+@media (max-width: 860px) {
+  /* The phone's top bar already shows the logo and "Discord". */
+  .rp-head-logo, .rp-head-text h1 { display: none; }
+  .rp-head-text p { margin: 0; }
+  .rp-bento { grid-template-columns: minmax(0, 1fr); }
+  .rp-rows { grid-template-columns: minmax(0, 1fr); }
+  .rp-status-pill { margin-left: 0; width: 100%; justify-content: space-between; }
+  .rp-tile { padding: var(--s-4); }
+  .rp-scrim { align-items: flex-end; padding: 0; }
+  .rp-sheet { grid-template-columns: minmax(0, 1fr); border-radius: 24px 24px 0 0; max-height: 90vh; animation-name: rp-sheet-up; }
+  .rp-sheet-side { order: -1; position: static; border-left: 0; border-bottom: 1px solid var(--line); padding: var(--s-4); }
+  .rp-editor-foot .btn { flex: 1 1 auto; }
+  .rp-spacer { display: none; }
+}
+@media (max-width: 520px) {
+  .rp-button-row { grid-template-columns: 1fr; }
+  .rp-template-grid { grid-template-columns: 1fr 1fr; }
+  .rp-mode-row { flex-wrap: wrap; }
+  .rp-slide { width: 100%; order: 3; }
+  .rp-head-text h1 { font-size: var(--fs-xl); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .discord *, .rp-scrim, .rp-sheet { animation: none !important; transition: none !important; }
+}

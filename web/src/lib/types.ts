@@ -249,7 +249,7 @@ export interface SceneApplyResult {
 
 export type DeckActionType =
   | 'none' | 'launch' | 'url' | 'keys' | 'media' | 'sound' | 'stopAll' | 'mute' | 'volume'
-  | 'scene' | 'appMute' | 'macro' | 'sensor' | 'wait' | 'window';
+  | 'scene' | 'appMute' | 'macro' | 'sensor' | 'wait' | 'window' | 'discord';
 
 export type DeckChannel = 'mic' | 'virtual' | 'monitor';
 export type MediaKey = 'playPause' | 'next' | 'previous' | 'volumeUp' | 'volumeDown' | 'mute';
@@ -359,4 +359,102 @@ export interface HardwareSnapshot {
 export interface OpenWindow {
   program: string;
   title: string;
+}
+
+/** Discord Rich Presence. A "music" preset stores song, artist, album, cover and link in the activity fields. */
+export type PresenceKind = 'activity' | 'music';
+export type PresenceType = 'playing' | 'listening' | 'watching' | 'competing';
+export type PresenceTimer = 'none' | 'elapsed' | 'countdown' | 'track';
+export type PresenceDisplay = 'name' | 'details' | 'state';
+
+export interface PresenceButton {
+  label: string;
+  url: string;
+}
+
+export interface PresencePreset {
+  id: string;
+  label: string;
+  kind: PresenceKind;
+  type: PresenceType;
+  name: string;
+  details: string;
+  detailsUrl: string;
+  state: string;
+  stateUrl: string;
+  largeImage: string;
+  largeText: string;
+  smallImage: string;
+  smallText: string;
+  buttons: PresenceButton[];
+  timer: PresenceTimer;
+  countdownMinutes: number;
+  durationSec: number;
+  positionSec: number;
+  statusDisplay: PresenceDisplay;
+}
+
+export interface PresenceState {
+  enabled: boolean;
+  /** off · idle (on, nothing chosen) · waiting (Discord isn't running on the PC) · connected */
+  status: 'off' | 'idle' | 'waiting' | 'connected';
+  user: string | null;
+  /** What Discord refused in the last update, in Discord's words. */
+  error: string | null;
+  /** The activity card shown now. */
+  activePresetId: string | null;
+  /** The song card shown at the same time (a second Discord application). */
+  activeMusicPresetId: string | null;
+  /** When each card was applied (Unix ms); its timer counts from here. */
+  appliedAt: number | null;
+  musicAppliedAt: number | null;
+  presets: PresencePreset[];
+  /** manual: the activity chosen here · auto: nothing from GameDeck, Discord shows the game it detects. */
+  activityMode: PresenceMode;
+  /** manual: the song chosen here · auto: what plays now. */
+  musicMode: PresenceMode;
+  autoMusic: AutoMusicSettings;
+  /** The song playing now in an allowed program, while musicMode is auto. */
+  autoSong: AutoSong | null;
+  /** Programs that can be allowed for automatic music. */
+  musicApps: MediaApp[];
+}
+
+export type PresenceMode = 'manual' | 'auto';
+
+export interface AutoMusicSettings {
+  /** "gamedeck-youtube" and Windows media programs ("spotify", "chrome"). */
+  apps: string[];
+  findCovers: boolean;
+}
+
+export interface MediaApp {
+  key: string;
+  name: string;
+}
+
+export interface AutoSong {
+  app: string;
+  appName: string;
+  preset: PresencePreset;
+  /** When the song started (Unix ms). */
+  startedAt: number;
+}
+
+export interface PresenceOptions {
+  activityMode?: PresenceMode;
+  musicMode?: PresenceMode;
+  musicApps?: string[];
+  findCovers?: boolean;
+}
+
+/** What the PC read about a song from its link. durationSec is 0 when the service doesn't say. */
+export interface SongInfo {
+  source: string;
+  title: string;
+  artist: string;
+  album: string;
+  cover: string;
+  durationSec: number;
+  link: string;
 }

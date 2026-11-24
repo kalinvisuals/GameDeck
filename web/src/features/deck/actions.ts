@@ -1,9 +1,10 @@
 import type { TFunction } from 'i18next';
+import { presenceStore } from '../../state/presence';
 import type { DeckAction, DeckActionType, DeckButton, DeckChannel, DeckState, HardwareSnapshot, MediaKey, SensorId } from '../../lib/types';
 
 /** Button actions, grouped as in the editor. Launch, link and keys act outside GameDeck. */
 export const ACTION_GROUPS: { group: string; types: DeckActionType[] }[] = [
-  { group: 'gamedeck', types: ['sound', 'stopAll', 'mute', 'volume', 'scene', 'appMute', 'macro'] },
+  { group: 'gamedeck', types: ['sound', 'stopAll', 'mute', 'volume', 'scene', 'appMute', 'macro', 'discord'] },
   { group: 'windows', types: ['launch', 'window', 'url', 'keys', 'media'] },
   { group: 'display', types: ['sensor', 'none'] },
 ];
@@ -15,12 +16,15 @@ export const SECONDARY_GROUPS = ACTION_GROUPS.map((g) => ({ ...g, types: g.types
 export const HOLD_MS = 500;
 
 /** What a macro step can do: no other macros (no loops) and no read-only widgets. */
-export const STEP_TYPES: DeckActionType[] = ['wait', 'sound', 'stopAll', 'mute', 'volume', 'scene', 'appMute', 'launch', 'window', 'url', 'keys', 'media'];
+export const STEP_TYPES: DeckActionType[] = ['wait', 'sound', 'stopAll', 'mute', 'volume', 'scene', 'appMute', 'discord', 'launch', 'window', 'url', 'keys', 'media'];
 
 /** Only the GameDeck PC itself may add or change these (the server enforces it too). */
 export const SENSITIVE = new Set<DeckActionType>(['launch', 'url', 'keys', 'window']);
 
 export const WINDOW_MODES = ['restore', 'minimize', 'close'] as const;
+
+/** Discord buttons: show a saved activity or song, hide one card, or turn everything on the profile on/off. */
+export const DISCORD_MODES = ['show', 'hideActivity', 'hideSong', 'toggle', 'activityMode', 'musicMode'] as const;
 
 export const CHANNELS: DeckChannel[] = ['mic', 'virtual', 'monitor'];
 export const MEDIA_KEYS: MediaKey[] = ['playPause', 'previous', 'next', 'volumeDown', 'volumeUp', 'mute'];
@@ -43,6 +47,10 @@ export function defaultAction(type: DeckActionType, state?: DeckState): DeckActi
     case 'launch': case 'url': return { type, target: '' };
     case 'keys': return { type, keys: '' };
     case 'window': return { type, target: '', mode: 'close' };
+    case 'discord': {
+      const first = presenceStore.get()?.presets[0]?.id;
+      return first ? { type, mode: 'show', target: first } : { type, mode: 'toggle' };
+    }
     default: return { type };
   }
 }
@@ -102,6 +110,11 @@ export function describeAction(a: DeckAction, t: TFunction, state: DeckState): s
     }
     case 'sensor': return a.sensor ? t(`deck.sensors.${a.sensor}`) : name;
     case 'wait': return t('deck.waitFor', { seconds: ((a.delayMs ?? 0) / 1000).toFixed(1) });
+    case 'discord': {
+      if (a.mode !== 'show') return t(`deck.discordModes.${a.mode ?? 'toggle'}`);
+      const p = presenceStore.get()?.presets.find((x) => x.id === a.target);
+      return `${t('deck.discordModes.show')}: ${p ? p.label || p.details || p.name || t('deck.missing') : t('deck.missing')}`;
+    }
     default: return name;
   }
 }
@@ -138,7 +151,7 @@ export function shortLabel(a: DeckAction, t: TFunction, state: DeckState): strin
 export type ButtonState = 'on' | 'active' | 'running' | 'error' | 'unavailable' | null;
 
 /** Actions whose button has a live state, so an "active" appearance means something for them. */
-export const STATEFUL = new Set<DeckActionType>(['mute', 'appMute', 'scene', 'sound', 'macro']);
+export const STATEFUL = new Set<DeckActionType>(['mute', 'appMute', 'scene', 'sound', 'macro', 'discord']);
 
 /** States in which the button shows its active appearance. */
 export const isActiveState = (s: ButtonState) => s === 'on' || s === 'active' || s === 'running';
@@ -162,6 +175,16 @@ export function buttonState(b: DeckButton, state: DeckState, playingSounds: Set<
       return !app ? 'unavailable' : app.muted ? 'on' : null;
     }
     case 'scene': return a.target && state.scenes.activeId === a.target ? 'active' : null;
+    case 'discord': {
+      const p = presenceStore.get();
+      if (!p) return null;
+      if (a.mode === 'toggle') return p.enabled ? 'on' : null;
+      if (a.mode === 'activityMode') return p.activityMode === 'auto' ? 'on' : null;
+      if (a.mode === 'musicMode') return p.musicMode === 'auto' ? 'on' : null;
+      if (a.mode !== 'show') return null;
+      if (!p.presets.some((x) => x.id === a.target)) return 'unavailable';
+      return p.enabled && (a.target === p.activePresetId || a.target === p.activeMusicPresetId) ? 'active' : null;
+    }
     case 'sound': return a.target && playingSounds.has(a.target) ? 'active' : null;
     case 'macro':
       if (a.target && state.deck.runningMacros.includes(a.target)) return 'running';

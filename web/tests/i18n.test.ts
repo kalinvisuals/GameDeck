@@ -116,6 +116,8 @@ describe('translation resources', () => {
       'nav.deck', 'nav.short.deck', 'deck.title', 'deck.groups.gamedeck', 'deck.groups.windows', 'deck.macro', 'macros.untitled',
       'deck.tabs.hardware', 'hw.gb', 'deckProfiles.grid', 'deckProfiles.placeholder', 'deck.looks.normal', 'deck.program',
       'settings.section.voice', // "Discord" in both languages
+      'nav.discord', 'nav.short.discord', 'discord.title', // "Discord" in both languages
+      'discord.f.artist', 'discord.f.album', 'discord.modes.manual',
     ]);
     const same = Object.keys(EN).filter((k) => EN[k] === RO[k] && !allowed.has(k));
     expect(same).toEqual([]);
@@ -299,11 +301,13 @@ describe('source code', () => {
   it('resolves every dynamically built key', async () => {
     const { SOUND_ICONS } = await import('../src/lib/icons');
     const dynamic = [
-      ...['dashboard', 'soundboard', 'mixer', 'deck', 'profiles', 'guide', 'settings'].flatMap((id) => [`nav.${id}`, `nav.short.${id}`]),
+      ...['dashboard', 'soundboard', 'mixer', 'deck', 'discord', 'profiles', 'guide', 'settings'].flatMap((id) => [`nav.${id}`, `nav.short.${id}`]),
       'nav.control', 'nav.manage',
       ...['devices', 'voice', 'network', 'prefs', 'diag'].map((id) => `settings.section.${id}`),
       ...['s1', 's2', 's3', 's4', 's6'].map((s) => `settings.steps.${s}`),
-      ...['none', 'launch', 'url', 'keys', 'media', 'sound', 'stopAll', 'mute', 'volume', 'scene', 'appMute', 'macro', 'sensor', 'wait', 'window'].map((x) => `deck.types.${x}`),
+      ...['none', 'launch', 'url', 'keys', 'media', 'sound', 'stopAll', 'mute', 'volume', 'scene', 'appMute', 'macro', 'sensor', 'wait', 'window', 'discord'].map((x) => `deck.types.${x}`),
+      ...['show', 'hideActivity', 'hideSong', 'toggle', 'activityMode', 'musicMode'].map((x) => `deck.discordModes.${x}`),
+      ...['mute', 'appMute', 'scene', 'sound', 'macro', 'discord', 'toggle'].map((x) => `deck.activeMeans.${x}`),
       ...['restore', 'minimize', 'close'].map((x) => `deck.windowModes.${x}`),
       ...['gamedeck', 'windows', 'display', 'steps'].map((x) => `deck.groups.${x}`),
       ...['mic', 'virtual', 'monitor'].map((x) => `deck.channels.${x}`),
@@ -319,6 +323,9 @@ describe('source code', () => {
       ...['s1', 's2', 's3', 's4', 's5'].map((s) => `guide.gd.${s}`),
       ...['s1', 's2', 's3', 's4', 's5', 's6', 's7'].map((s) => `guide.dc.${s}`),
       ...['s1', 's2'].map((s) => `guide.verify.${s}`),
+      ...['playing', 'listening', 'watching', 'competing'].flatMap((x) => [`discord.types.${x}`, `discord.preview.${x}`]),
+      ...['off', 'idle', 'waiting', 'connected'].flatMap((x) => [`discord.status.${x}`, `discord.statusLong.${x}`]),
+      ...['gaming', 'music', 'brb', 'watching'].map((x) => `discord.templates.${x}.body`),
       ...['nothing', 'noVoice', 'noSounds', 'cut', 'pitch', 'crackle', 'echo', 'allPc', 'double'].flatMap((k) => [`guide.trouble.${k}.q`, `guide.trouble.${k}.a`]),
     ];
     expect(dynamic.filter((k) => !exists(k))).toEqual([]);
@@ -328,7 +335,7 @@ describe('source code', () => {
     // Attributes a person reads or a screen reader announces.
     const USER_FACING = new Set(['label', 'title', 'placeholder', 'aria-label', 'aria-description', 'alt', 'hint', 'eyebrow', 'subtitle', 'empty', 'meterNote', 'role-text', 'name']);
     // Text that is the same in every language: brand, units, symbols, file formats.
-    const ALLOWED = /^(GameDeck|Game|Deck|S|M|L|MP3 · WAV|dBFS|ms|dB|Hz|kHz|%|★|→|←|·|—|\+|\/|×)$/;
+    const ALLOWED = /^(GameDeck|Game|Deck|YouTube|https:\/\/|S|M|L|MP3 · WAV|dBFS|ms|dB|Hz|kHz|%|★|→|←|·|—|\+|\/|×)$/;
     const hasWords = (s: string) => /\p{L}{2,}/u.test(s);
     const found: string[] = [];
 

@@ -51,6 +51,7 @@ public static class DashboardServer
         var json = new JsonSerializerOptions(JsonSerializerDefaults.Web);
         ConfigureJson(json);
         var youtube = new YouTubeBridge(() => service.Language);
+        service.Presence.UseYouTube(youtube);
         var hub = new WsHub(service, json, youtube);
 
         var app = builder.Build();
@@ -275,6 +276,19 @@ public static class DashboardServer
             await youtube.HandleExtensionAsync(socket, ctx.RequestAborted);
         });
 
+        // --- Discord Rich Presence (live updates go over the socket) ---
+        app.MapGet("/api/presence", () => svc.Presence.Snapshot());
+        app.MapPut("/api/presence/enabled", (PresenceEnabled body) => { svc.Presence.SetEnabled(body.Enabled); return svc.Presence.Snapshot(); });
+        app.MapPost("/api/presence/presets", (GameDeck.Core.Presence.PresencePreset body) => svc.Presence.CreatePreset(body));
+        app.MapPut("/api/presence/presets/{id}", (string id, GameDeck.Core.Presence.PresencePreset body) => svc.Presence.SavePreset(id, body));
+        app.MapDelete("/api/presence/presets/{id}", (string id) => { svc.Presence.DeletePreset(id); return Results.NoContent(); });
+        app.MapPost("/api/presence/presets/{id}/activate", (string id) => { svc.Presence.Activate(id); return svc.Presence.Snapshot(); });
+        // Song details from a pasted link; only the five known music services are contacted.
+        app.MapPost("/api/presence/lookup", (GameDeck.App.Presence.SongLookupRequest body, HttpContext ctx) => GameDeck.App.Presence.SongLookup.LookupAsync(body.Url, ctx.RequestAborted));
+        app.MapPut("/api/presence/options", (GameDeck.App.Presence.PresenceOptionsPatch body) => { svc.Presence.SetOptions(body); return svc.Presence.Snapshot(); });
+        app.MapPost("/api/presence/{slot}/restart", (string slot) => { svc.Presence.RestartTimer(slot); return svc.Presence.Snapshot(); });
+        app.MapPost("/api/presence/{slot}/hide", (string slot) => { svc.Presence.Hide(slot); return svc.Presence.Snapshot(); });
+
         // --- realtime ---
         app.Map("/ws", async (HttpContext ctx) =>
         {
@@ -345,7 +359,7 @@ public static class DashboardServer
         h.XFrameOptions = "DENY";
         h["Referrer-Policy"] = "no-referrer";
         h.ContentSecurityPolicy =
-            "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com; " +
+            "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; " +
             "connect-src 'self' ws: wss:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'";
         if (ctx.Request.Path.StartsWithSegments("/api")) h.CacheControl = "no-store";
         return next(ctx);

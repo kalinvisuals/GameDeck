@@ -2,9 +2,10 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { LucideIcon } from 'lucide-react';
 import { useDeck } from '../state/DeckContext';
+import { usePresence } from '../state/presence';
 import { LauncherCard, LauncherScreen } from './PadsLauncher';
 
-export type MoreChoice = 'profiles' | 'guide' | 'settings';
+export type MoreChoice = 'discord' | 'profiles' | 'guide' | 'settings';
 
 /** Phones and tablets: the "More" tab opens the remaining screens as full-screen cards. */
 export function MoreLauncher({ items, current, status, onChoose, onClose }: {
@@ -16,8 +17,10 @@ export function MoreLauncher({ items, current, status, onChoose, onClose }: {
 }) {
   const { t } = useTranslation();
   const { state, profile } = useDeck();
+  const presence = usePresence();
 
   const meta: Record<MoreChoice, string[]> = {
+    discord: [t(`discord.status.${presence?.status ?? 'off'}`)],
     profiles: [t('more.profiles', { count: state.profiles.length }), profile.name],
     guide: [],
     settings: [t('nav.versionLine', { version: state.server.version })],

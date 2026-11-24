@@ -74,6 +74,8 @@ public sealed record LogoPatch(string? Model, string? Finish);
 
 public sealed record AutoStartDto(bool Enabled);
 
+public sealed record PresenceEnabled(bool Enabled);
+
 /// <param name="Local">The browser runs on the GameDeck PC itself; only it may add launch, link and key actions.</param>
 public sealed record SessionDto(bool Authenticated, string? DeviceId, string? DeviceName, bool Local = false);
 

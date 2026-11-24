@@ -41,6 +41,9 @@ public static partial class DeckRules
     /// <summary>What a "window" action does to a program's windows.</summary>
     public static readonly IReadOnlyList<string> WindowModes = ["minimize", "restore", "close"];
 
+    /// <summary>Discord Rich Presence from a button: show a saved activity or song, hide one card, turn it all on/off, or switch a card between manual and automatic.</summary>
+    public static readonly IReadOnlyList<string> DiscordModes = ["show", "hideActivity", "hideSong", "toggle", "activityMode", "musicMode"];
+
     private static readonly string[] UrlSchemes = ["http", "https", "steam", "com.epicgames.launcher"];
 
     /// <summary>Script, installer and settings files: opening one would run arbitrary commands.</summary>
@@ -140,6 +143,10 @@ public static partial class DeckRules
                 var app = (a.Target ?? "").Trim().ToLowerInvariant();
                 if (app.Length is 0 or > 260) throw Bad("deck.targetMissing");
                 return new DeckAction { Type = "appMute", Target = app, Mode = OnOffToggle(a.Mode) };
+            case "discord":
+                if (a.Mode is null || !DiscordModes.Contains(a.Mode)) throw Bad("deck.actionInvalid");
+                if (a.Mode == "show" && !IsId(a.Target)) throw Bad("deck.targetMissing");
+                return new DeckAction { Type = "discord", Mode = a.Mode, Target = a.Mode == "show" ? a.Target : null };
             case "mute":
                 return new DeckAction { Type = "mute", Channel = Channel(a.Channel), Mode = OnOffToggle(a.Mode) };
             case "volume":

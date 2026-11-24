@@ -1,8 +1,9 @@
-import type { DeckState, HardwareSnapshot, Playing, UpdatesState, YouTubeState } from './types';
+import type { DeckState, HardwareSnapshot, Playing, PresenceState, UpdatesState, YouTubeState } from './types';
 import { levelStore, type Levels } from '../state/levels';
 import { hardwareStore } from '../state/hardware';
 import { youtubeStore } from '../state/youtube';
 import { updatesStore } from '../state/updates';
+import { presenceStore } from '../state/presence';
 import { reloadIfUpdated } from './appUpdate';
 
 type ServerMessage =
@@ -12,6 +13,7 @@ type ServerMessage =
   | { type: 'hardware'; data: HardwareSnapshot }
   | { type: 'youtube'; data: YouTubeState }
   | { type: 'updates'; data: UpdatesState }
+  | { type: 'presence'; data: PresenceState }
   | { type: 'ack'; requestId?: string; result: string }
   | { type: 'error'; requestId?: string; message: string }
   | { type: 'pong' };
@@ -61,6 +63,7 @@ export class DeckSocket {
       else if (msg.type === 'hardware') hardwareStore.set(msg.data);
       else if (msg.type === 'youtube') youtubeStore.set(msg.data);
       else if (msg.type === 'updates') updatesStore.set(msg.data);
+      else if (msg.type === 'presence') presenceStore.set(msg.data);
       else if (msg.type === 'state') this.handlers.onState(msg.data);
       else if (msg.type === 'playing') this.handlers.onPlaying(msg.data);
       else if (msg.type === 'error') this.handlers.onError(msg.message);

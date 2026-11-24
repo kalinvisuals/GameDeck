@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BookOpen, Gauge, Grid3x3, Layers, LayoutGrid, Minimize2, MonitorPlay, MoreHorizontal, Settings, SlidersHorizontal, Square } from 'lucide-react';
+import { Activity, BookOpen, Gauge, Grid3x3, Layers, LayoutGrid, Minimize2, MonitorPlay, MoreHorizontal, Settings, SlidersHorizontal, Square } from 'lucide-react';
 import { useDeck } from '../state/DeckContext';
 import { IconButton, StatusDot, type Tone } from '../ui/controls';
 import { LogoMark, Wordmark } from './Logo';
@@ -12,6 +12,7 @@ import { ProfilesView } from '../views/ProfilesView';
 import { SettingsView } from '../views/SettingsView';
 import { GuideView } from '../views/GuideView';
 import { YouTubeView } from '../views/YouTubeView';
+import { DiscordView } from '../views/DiscordView';
 import { PadsLauncher, type PadsChoice } from './PadsLauncher';
 import { MoreLauncher, type MoreChoice } from './MoreLauncher';
 import { MenuExtras, UpdatePrompt } from '../features/Updates';
@@ -19,7 +20,7 @@ import { openSettingsSection } from '../views/SettingsView';
 import { asLogoFinish, asLogoModel, logoIconSvg } from '../lib/logo';
 import type { BusStatus } from '../lib/types';
 
-export type ViewId = 'dashboard' | 'soundboard' | 'mixer' | 'deck' | 'youtube' | 'profiles' | 'guide' | 'settings';
+export type ViewId = 'dashboard' | 'soundboard' | 'mixer' | 'deck' | 'youtube' | 'discord' | 'profiles' | 'guide' | 'settings';
 
 /** Labels come from i18n: nav.<id> (sidebar) and nav.short.<id> (phone tab bar). */
 type NavItem = { id: ViewId; icon: typeof Gauge };
@@ -32,6 +33,7 @@ const NAV: { group: 'control' | 'manage'; items: NavItem[] }[] = [
       { id: 'deck', icon: Grid3x3 },
       { id: 'youtube', icon: MonitorPlay },
       { id: 'mixer', icon: SlidersHorizontal },
+      { id: 'discord', icon: Activity },
     ],
   },
   {
@@ -186,6 +188,7 @@ export function AppShell() {
           {view === 'mixer' && <MixerView />}
           {view === 'deck' && <DeckView />}
           {view === 'youtube' && <YouTubeView />}
+          {view === 'discord' && <DiscordView />}
           {view === 'profiles' && <ProfilesView go={setView} />}
           {view === 'guide' && <GuideView go={setView} />}
           {view === 'settings' && <SettingsView go={setView} />}
