@@ -2,6 +2,51 @@
   "donate": "https://revolut.me/kalinvisuals",
   "messages": [
     {
+      "id": "2026-11-discord",
+      "until": "2026-11-30T23:59:59+02:00",
+      "link": "https://github.com/kalinvisuals/GameDeck/releases/tag/v0.2.0",
+      "ro": {
+        "title": "Nou în 0.2.0: Discord pe profilul tău",
+        "body": "Arată pe profilul Discord ce joci și ce asculți, setat de pe PC sau de pe telefon. Pune o activitate a ta (text, imagine, timp, butoane) și o melodie cu copertă și bară de progres, sau lasă-le pe Automat: jocul îl arată Discord, iar melodia vine din YouTube-ul GameDeck, Spotify și alte aplicații. Lipești linkul unei melodii și se completează singură. Actualizează din Setări → Despre → Instalează actualizarea, apoi deschide Discord (pe telefon: Mai mult → Discord). E oprit până îl pornești tu.",
+        "linkText": "Vezi ce e nou"
+      },
+      "en": {
+        "title": "New in 0.2.0: Discord on your profile",
+        "body": "Show on your Discord profile what you play and what you listen to, set from the PC or your phone. Add your own activity (text, image, timer, buttons) and a song with cover and progress bar, or leave them on Automatic: Discord shows the game, and the song comes from GameDeck's YouTube, Spotify and other apps. Paste a song link and it fills in by itself. Update from Settings → About → Install the update, then open Discord (on a phone: More → Discord). It stays off until you turn it on.",
+        "linkText": "See what's new"
+      },
+      "es": {
+        "title": "Novedad en 0.2.0: Discord en tu perfil",
+        "body": "Muestra en tu perfil de Discord a qué juegas y qué escuchas, desde el PC o el móvil. Añade tu propia actividad (texto, imagen, tiempo, botones) y una canción con portada y barra de progreso, o déjalas en Automático: Discord muestra el juego y la canción viene del YouTube de GameDeck, Spotify y otras apps. Pega el enlace de una canción y se rellena sola. Actualiza en Ajustes → Acerca de → Instalar la actualización y abre Discord (en el móvil: Más → Discord). Está apagado hasta que lo actives.",
+        "linkText": "Ver novedades"
+      },
+      "pt": {
+        "title": "Novo na 0.2.0: Discord no seu perfil",
+        "body": "Mostre no seu perfil do Discord o que você joga e ouve, definido pelo PC ou pelo celular. Adicione sua atividade (texto, imagem, tempo, botões) e uma música com capa e barra de progresso, ou deixe no Automático: o Discord mostra o jogo e a música vem do YouTube do GameDeck, Spotify e outros apps. Cole o link de uma música e ela se preenche sozinha. Atualize em Configurações → Sobre → Instalar a atualização e abra Discord (no celular: Mais → Discord). Fica desligado até você ligar.",
+        "linkText": "Ver novidades"
+      },
+      "de": {
+        "title": "Neu in 0.2.0: Discord in deinem Profil",
+        "body": "Zeig in deinem Discord-Profil, was du spielst und hörst, eingestellt am PC oder Handy. Füge eine eigene Aktivität (Text, Bild, Zeit, Buttons) und einen Song mit Cover und Fortschrittsbalken hinzu, oder lass beides auf Automatisch: Discord zeigt das Spiel, der Song kommt aus GameDecks YouTube, Spotify und anderen Apps. Füge einen Song-Link ein und der Rest füllt sich selbst. Aktualisiere über Einstellungen → Info → Update installieren und öffne Discord (am Handy: Mehr → Discord). Es bleibt aus, bis du es einschaltest.",
+        "linkText": "Neuerungen ansehen"
+      },
+      "fr": {
+        "title": "Nouveau dans 0.2.0 : Discord sur ton profil",
+        "body": "Affiche sur ton profil Discord ce à quoi tu joues et ce que tu écoutes, réglé depuis le PC ou le téléphone. Ajoute ta propre activité (texte, image, temps, boutons) et une chanson avec pochette et barre de progression, ou laisse-les en Automatique : Discord montre le jeu et la chanson vient du YouTube de GameDeck, de Spotify et d'autres applis. Colle le lien d'une chanson et tout se remplit. Mets à jour via Réglages → À propos → Installer la mise à jour, puis ouvre Discord (sur téléphone : Plus → Discord). Désactivé tant que tu ne l'actives pas.",
+        "linkText": "Voir les nouveautés"
+      },
+      "pl": {
+        "title": "Nowość w 0.2.0: Discord na twoim profilu",
+        "body": "Pokaż na profilu Discord, w co grasz i czego słuchasz, ustawiane z PC lub telefonu. Dodaj własną aktywność (tekst, obraz, czas, przyciski) i utwór z okładką i paskiem postępu albo zostaw je na Automatycznie: Discord pokaże grę, a utwór przyjdzie z YouTube w GameDeck, Spotify i innych aplikacji. Wklej link do utworu, a reszta uzupełni się sama. Zaktualizuj w Ustawienia → Informacje → Zainstaluj aktualizację i otwórz Discord (na telefonie: Więcej → Discord). Jest wyłączony, dopóki go nie włączysz.",
+        "linkText": "Zobacz nowości"
+      },
+      "ru": {
+        "title": "Новое в 0.2.0: Discord в твоём профиле",
+        "body": "Показывай в профиле Discord, во что играешь и что слушаешь, с ПК или телефона. Добавь свою активность (текст, картинка, время, кнопки) и песню с обложкой и полосой прогресса или оставь всё на Автоматически: Discord покажет игру, а песня придёт из YouTube в GameDeck, Spotify и других приложений. Вставь ссылку на песню, и всё заполнится само. Обнови в Настройки → О программе → Установить обновление и открой Discord (на телефоне: Ещё → Discord). Выключено, пока ты не включишь.",
+        "linkText": "Что нового"
+      }
+    },
+    {
       "id": "2026-11-youtube-volume",
       "until": "2026-11-30T23:59:59+02:00",
       "link": "https://github.com/kalinvisuals/GameDeck/releases/tag/v0.1.1",
